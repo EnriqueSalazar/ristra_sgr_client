@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './styles.css';
+import Basic from './Basic';
 const axios = require('axios');
 
 class App extends React.Component {
@@ -8,7 +9,6 @@ class App extends React.Component {
 		super(props);
 		this.state = { number: 0 };
 	}
-
 	onClick = async () => {
 		console.log('going to fetch');
 		this.setState({ isSending: true });
@@ -37,6 +37,7 @@ class App extends React.Component {
 				<h1>
 					Hello, {this.state.number} {this.props.name}
 				</h1>
+				<Basic />
 			</div>
 		);
 	}
