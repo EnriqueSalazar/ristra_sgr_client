@@ -1,8 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './styles.css';
+import axios from 'axios';
+
 import Basic from './Basic';
-const axios = require('axios');
+
+import './styles.css';
+import 'typeface-roboto';
 
 class App extends React.Component {
 	constructor(props) {

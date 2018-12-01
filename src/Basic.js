@@ -1,5 +1,8 @@
 import React from 'react';
 import { Formik } from 'formik';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Switch from '@material-ui/core/Switch';
 
 const Basic = () => (
   <div>
@@ -35,25 +38,31 @@ const Basic = () => (
         /* and other goodies */
       }) => (
         <form onSubmit={handleSubmit}>
-          <input
+		<TextField
             type="email"
-            name="email"
-            onChange={handleChange}
+
+		error={errors.email && touched.email && errors.email}
+          name="email"
+		  id="outlined-name"
+          label="Email"
+     onChange={handleChange}
             onBlur={handleBlur}
             value={values.email}
-          />
-          {errors.email && touched.email && errors.email}
-          <input
-            type="password"
-            name="password"
-            onChange={handleChange}
-            onBlur={handleBlur}
-            value={values.password}
-          />
-          {errors.password && touched.password && errors.password}
-          <button type="submit" disabled={isSubmitting}>
-            Submit
-          </button>
+          margin="normal"
+          variant="outlined"
+		  color="primary"
+		            helperText={errors.email && touched.email && errors.email}
+        />
+	<Switch
+          checked={values.robot}
+    onChange={handleChange}
+            onBlur={handleBlur}          value="checkedA"
+		  name="robot"
+		  color="primary"
+        />
+         <Button type="submit" disabled={isSubmitting} variant="contained" color="primary">
+			Hello World
+		</Button>
         </form>
       )}
     </Formik>
