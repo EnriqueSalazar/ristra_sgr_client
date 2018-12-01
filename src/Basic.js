@@ -20,11 +20,21 @@ const Basic = () => (
         }
         return errors;
       }}
-      onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
+      onSubmit={async (values, { setSubmitting }) => {
+		  console.log(values);
+		  let response;
+		const url= 'https://ristra-sgr-server-enriquesalazar.c9users.io/';
+		try {
+			response = await axios.post( url, values);
+		} catch (error) {
+			// console.log(error);
+			console.dir(error);
+		}
+		console.log(response);
+        // setTimeout(() => {
+        //   alert(JSON.stringify(values, null, 2));
+        // }, 400);
           setSubmitting(false);
-        }, 400);
       }}
     >
       {({

@@ -12,25 +12,52 @@ class App extends React.Component {
 		super(props);
 		this.state = { number: 0 };
 	}
-	onClick = async () => {
-		console.log('going to fetch');
-		this.setState({ isSending: true });
-		let response;
-		try {
-			response = await axios({
-				method: 'post',
-				url: 'https://ristra_sgr_server-enriquesalazar435916.codeanyapp.com/',
-				data: {
-					number: this.state.number,
-				},
+	onClick = () => {
+		// console.log('going to fetch');
+		// this.setState({ isSending: true });
+		// let response;
+			// axios.post(
+			// 	'https://postman-echo.com/post',
+			// 	{hola: 'mundo'}
+			// ).then(response =>{
+			// 	console.log('response:', response);
+			// }).catch(error => {
+			// 	console.log('error:', error);
+			// });
+			 let axiosConfig = {
+      headers: {
+          'Content-Type': 'application/json;charset=UTF-8',
+          "Access-Control-Allow-Origin": "*",
+      }
+    };
+			axios.post(
+				// 'https://postman-echo.com/get?foo1=bar1&foo2=bar2',
+				'https://ristra-sgr-server-enriquesalazar.c9users.io/',
+				// axiosConfig
+			).then(response =>{
+				console.log('response:', response);
+			}).catch(error => {
+				console.log('error:', error);
 			});
-		} catch (error) {
-			console.log(error);
-		}
-		this.setState({ number: response.data });
-		console.log('success');
-		console.log(response);
-		this.setState({ isSending: false });
+		// try {
+		// 	// response = await axios({
+		// 	// 	method: 'post',
+		// 	// 	url: 'https://postman-echo.com/post',
+		// 	// 	data: {
+		// 	// 		number: this.state.number,
+		// 	// 	},
+		// 	// 	headers: {
+		// 	// 		'Content-Type': 'application/json'
+		// 	// 	}
+		// 	// });
+		// } catch (error) {
+		// 	console.log(error);
+		// 	// util.inspect(error);
+		// }
+		// this.setState({ number: response.data });
+		// console.log('success');
+		// console.log(response);
+		// this.setState({ isSending: false });
 	};
 
 	render() {
