@@ -3,12 +3,13 @@ import { Formik } from 'formik';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Switch from '@material-ui/core/Switch';
+import axios from 'axios';
 
 const Basic = () => (
   <div>
     <h1>Anywhere in your app!</h1>
     <Formik
-      initialValues={{ email: '', password: '' }}
+      initialValues={{ email: 'e@e.com', robot: true}}
       validate={values => {
         let errors = {};
         if (!values.email) {
@@ -23,17 +24,13 @@ const Basic = () => (
       onSubmit={async (values, { setSubmitting }) => {
 		  console.log(values);
 		  let response;
-		const url= 'https://ristra-sgr-server-enriquesalazar.c9users.io/';
+		const url= 'https://ristra-sgr-server-enriquesalazar.c9users.io/data/';
 		try {
 			response = await axios.post( url, values);
 		} catch (error) {
-			// console.log(error);
 			console.dir(error);
 		}
 		console.log(response);
-        // setTimeout(() => {
-        //   alert(JSON.stringify(values, null, 2));
-        // }, 400);
           setSubmitting(false);
       }}
     >
