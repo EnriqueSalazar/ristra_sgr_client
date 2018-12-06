@@ -1,42 +1,46 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import axios from 'axios';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import Form from './Form';
+import Results from './Results';
 
-import Basic from './Basic';
-
-import './styles.css';
+// import './styles.css';
 import 'typeface-roboto';
 
-class App extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = { number: 0 };
-	}
-	onClick = () => {
-			 let axiosConfig = {
-      headers: {
-          'Content-Type': 'application/json;charset=UTF-8',
-          "Access-Control-Allow-Origin": "*",
-      }
-    };
-			axios.post(
-				'https://ristra-sgr-server-enriquesalazar.c9users.io/',
-			).then(response =>{
-				console.log('response:', response);
-			}).catch(error => {
-				console.log('error:', error);
-			});
-	};
+function TabContainer(props) {
+  return (
+    <Typography component="div" style={{ padding: 8 * 3 }}>
+      {props.children}
+    </Typography>
+  );
+}
 
+class App extends React.Component {
+	state = {
+    value: 0,
+  };
+	handleChange = (event, value) => {
+    this.setState({ value });
+  };
 	render() {
+		const { value } = this.state;
 		return (
-			<div className="App">
-				<button onClick={this.onClick}> button </button>
-				<h1>
-					Hello, {this.state.number} {this.props.name}
-				</h1>
-				<Basic />
-			</div>
+			<div>
+        <AppBar position="static">
+          <Tabs value={value} onChange={this.handleChange}>
+            <Tab label="Questionario" />
+            <Tab label="Resultados" />
+          </Tabs>
+        </AppBar>
+        {value === 0 && <TabContainer><Form /></TabContainer>}
+        {value === 1 && <TabContainer><Results /></TabContainer>}
+      </div>
+		/*	// <div className="App">
+			// 	<Basic />
+			// </div>*/
 		);
 	}
 }
