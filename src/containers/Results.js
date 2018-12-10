@@ -74,9 +74,8 @@ renderRadio = (radio, result) => {
   console.log(radio);
   const { id, label, criterio, items } = radio;
   if (id){
-    return (
-      <div key={`${id}_radio`}>
-        <Tooltip title={result[id+'_obs']} placement="top">
+    return (      <div key={`${id}_radio`}>
+        {result[id] && <Tooltip title={result[id+'_obs']} placement="top">
           <TextField
             disabled
             className={classes.textInput}
@@ -86,7 +85,7 @@ renderRadio = (radio, result) => {
             variant="outlined"
             color="primary"
           />
-        </Tooltip>
+        </Tooltip>}
       </div>
     )
   } else if (items){
