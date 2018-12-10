@@ -6,131 +6,56 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 // import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import TextField from '@material-ui/core/TextField';
-import Divider from '@material-ui/core/Divider';
-import Tooltip from '@material-ui/core/Tooltip';
-import {inputEntries, inputRadio} from './Form';
+import { inputEntries, inputRadio } from '../config/vehiculos';
+import { ResultDato } from '../components/ResultDato';
+import { ResultRadio } from '../components/ResultRadio';
 const styles = theme => ({
-  // root: {
-  //   // display: 'flex',
-  //   // justifyContent: 'center',
-  //   // flexWrap: 'wrap',
-  //   width: '100%',
-  // },
-  // chip: {
-  //   margin: theme.spacing.unit,
-  // },
   container: {
     display: 'flex',
     flexWrap: 'wrap',
   },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200,
-  },
-  // heading: {
-  //   fontSize: theme.typography.pxToRem(15),
-  //   fontWeight: theme.typography.fontWeightRegular,
-  // },
 });
 
 class Results extends React.Component {
 
-state={results: []};
+  state = { results: [] };
 
-componentDidMount = () => {
-  this.getData();
-}
-getData = async () => {
-  let response;
-  const url= 'https://ristra-sgr-server-enriquesalazar.c9users.io/ipv/';
-  try {
-    response = await axios.get(url);
-  } catch (error) {
+  componentDidMount = () => {
+    this.getData();
   }
-  this.setState({results: response.data});
-}
 
-renderDatos = (result) => {
-  const { classes } = this.props;
-  return inputEntries.map((entry, i) => {
-    return  result[entry.id] && <TextField
-      disabled
-      key={i}
-      className={classes.textInput}
-      label={entry.label}
-      value={result[entry.id]}
-      margin="normal"
-      variant="outlined"
-      color="primary"
-    />
-  })
-}
+  getData = async() => {
+    let response;
+    const url = 'https://ristra-sgr-server-enriquesalazar.c9users.io/ipv/';
+    try {
+      response = await axios.get(url);
+    }
+    catch (error) {}
+    this.setState({ results: response.data });
+  }
 
-renderRadio = (radio, result) => {
+  render() {
     const { classes } = this.props;
-
-  console.log(radio);
-  const { id, label, criterio, items } = radio;
-  if (id){
-    return (      <div key={`${id}_radio`}>
-        {result[id] && <Tooltip title={result[id+'_obs']} placement="top">
-          <TextField
-            disabled
-            className={classes.textInput}
-            label={label}
-            value={result[id]}
-            margin="normal"
-            variant="outlined"
-            color="primary"
-          />
-        </Tooltip>}
-      </div>
-    )
-  } else if (items){
+    const { results } = this.state;
     return (
-      <div key={`${criterio}_radio_group`} id="radio_group"  className={classes.container}>
-        {criterio && <div style={{width: '100%'}}>{criterio}</div>}
-        {items.map(radio => this.renderRadio(radio, result))}
-        <Divider />
-      </div>
-    )
-  }
-  return null;
-}
-
-renderDesarrollo = (result) => {
-  return (
-    <div>
-      {inputRadio.map((radio, i) => {
-        return this.renderRadio(radio, result)
-      })}
-    </div>
-  )
-  
-}
-render(){
-  const { classes } = this.props;
-  const { results } = this.state;
-  return(
-    <div className={classes.root}>
-    {results.map((result, i) => <ExpansionPanel key={i}>
+      <div className={classes.root}>
+        {results.map((result, i) => <ExpansionPanel key={i}>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           <div className={classes.container}>
-            {this.renderDatos(result)}
+            {inputEntries.map((entry, i) =>  (result[entry.id] && 
+              <ResultDato {...this.props} label={entry.label} value={result[entry.id]}/>)
+            )}
           </div>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
           <div className={classes.container}>
-            {this.renderDesarrollo(result)}
+            {inputRadio.map((radio, i) => (<ResultRadio result={result} radio={radio}/>))}
           </div>
         </ExpansionPanelDetails>
       </ExpansionPanel>)}
-
-   
     </div>
-  )};
+    )
+  };
 }
 
 export default withStyles(styles)(Results);

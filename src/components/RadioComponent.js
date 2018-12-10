@@ -2,16 +2,12 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Radio from '@material-ui/core/Radio';
 
-const recurse = (radio, props) => <RadioButton radio={radio} {...props} />;
-
-export const RadioButton = props => {
+const RadioElement = props => {
   const { radio, radioOptions } = props;
-  const { id, label, criterio, descripcion, items } = radio;
+  const { id, label, descripcion } = radio;
   const { errors, touched, handleChange, handleBlur, values } = props;
   const obs = `${id}_obs`;
-  if (id) {
-    return (
-      <div key={`${id}_radio`}>
+  return (<div key={`${id}_radio`}>
         {label && descripcion && <h3>{label}</h3>}
         {label && !descripcion && <div>{label}</div>}
         {descripcion && <h4>{descripcion}</h4>}
@@ -36,22 +32,27 @@ export const RadioButton = props => {
           label={'Observaciones'}
           onChange={handleChange}
           onBlur={handleBlur}
-          // value={values[obs]}
           margin="normal"
           variant="outlined"
           color="primary"
           helperText={errors[id] && touched[id] && errors[id]}
         />
-      </div>
+      </div>)
+}
+
+export const RadioComponent = props => {
+  const { radio } = props;
+  const { id, criterio, descripcion, items } = radio;
+  if (id) {
+    return (
+      <RadioElement {...props} />
     );
-  } else if (items) {
+  } 
     return (
       <div key={`${criterio}_radio_group`} id="radio_group">
         {criterio && <h3>{criterio}</h3>}
         {descripcion && <h4>{descripcion}</h4>}
-        {items.map(radio => recurse(radio, props))}
+        {items.map((item, i) => <RadioElement {...props} radio={item} />)}
       </div>
     );
-  }
-  return null;
 };
