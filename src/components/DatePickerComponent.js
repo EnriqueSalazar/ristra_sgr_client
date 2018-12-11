@@ -9,7 +9,7 @@ const styles = theme => ({
   }
 });
 
-const TextInputComponentWithoutStyles = props => {
+const DatePickerComponentWithoutStyles = props => {
   const {
     id,
     label,
@@ -21,9 +21,12 @@ const TextInputComponentWithoutStyles = props => {
   } = props;
   return (
     <TextField
+      type="date"
+      InputLabelProps={{
+        shrink: true
+      }}
       className={classes.formControl}
       key={`${id}_textfield`}
-      type="string"
       error={errors[id] && touched[id] && errors[id]}
       name={id}
       id={id}
@@ -38,6 +41,6 @@ const TextInputComponentWithoutStyles = props => {
   );
 };
 
-export const TextInputComponent = withStyles(styles)(
-  TextInputComponentWithoutStyles
+export const DatePickerComponent = withStyles(styles)(
+  DatePickerComponentWithoutStyles
 );

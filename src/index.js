@@ -19,7 +19,7 @@ const TabContainer = props => {
 
 class App extends React.Component {
   state = {
-    value: 0,
+    value: 0
   };
   handleChange = (event, value) => {
     this.setState({ value });

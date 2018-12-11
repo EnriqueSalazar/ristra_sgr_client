@@ -1,10 +1,12 @@
 import React from 'react';
-import { Formik } from 'formik';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
+import { Formik } from 'formik';
 import { radioOptions, inputEntries, inputRadio } from '../config/vehiculos';
 import { RadioComponent } from '../components/RadioComponent';
 import { TextInputComponent } from '../components/TextInputComponent';
+import { DatePickerComponent } from '../components/DatePickerComponent';
+import { SelectComponent } from '../components/SelectComponent';
 
 const Form = () => {
   // const validate = (values) => {
@@ -41,25 +43,36 @@ const Form = () => {
         {props => {
           const {
             handleSubmit,
-            isSubmitting,
+            isSubmitting
             /* and other goodies */
           } = props;
           return (
             <form onSubmit={handleSubmit}>
-              {inputEntries.map((entry, i) =>
-              <TextInputComponent key={i} {...props} id={entry.id} label={entry.label}/>
-              )}
+              <DatePickerComponent
+                {...props}
+                id={'fecha_inspeccion'}
+                name={'fecha_inspeccion'}
+                label={'Fecha de Inspección'}
+              />
+              {inputEntries.map((entry, i) => {
+                return entry.select ? (
+                  <SelectComponent key={i} {...props} {...entry} />
+                ) : (
+                  <TextInputComponent key={i} {...props} {...entry} />
+                );
+              })}
               <h2>DESARROLLO DE LA INSPECCIÓN</h2>
 
               {inputRadio.map((radio, i) => {
-              return (
-                <RadioComponent
-                  key={i}
-                  radio={radio}
-                  radioOptions={radioOptions}
-                  {...props}
-                />
-              )})}
+                return (
+                  <RadioComponent
+                    key={i}
+                    radio={radio}
+                    radioOptions={radioOptions}
+                    {...props}
+                  />
+                );
+              })}
               <Button
                 type="submit"
                 disabled={isSubmitting}
